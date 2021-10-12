@@ -3,6 +3,7 @@ import Link from "next/link";
 import Button from "../components/Button";
 
 import tw from "twin.macro";
+import styled from "styled-components";
 
 export default function Home() {
   return (
@@ -22,13 +23,19 @@ export default function Home() {
         <Button className="absolute">SK77</Button>
       </main>
 
-      <footer tw="bg-black w-full text-white text-center p-2 grid place-items-center fixed bottom-0">
+      <Styled.Footer>
         <Link href="https://mahmoodkhan.me">
           <a target="_blank" rel="noopener noreferrer">
             ⚡<div className="inline -m-2 p-1">K77</div>
           </a>
         </Link>
-      </footer>
+      </Styled.Footer>
     </div>
   );
 }
+
+const Styled = {
+  Footer: styled.footer`
+    ${tw`bg-black w-full text-white text-center p-2 grid place-items-center fixed bottom-0`}
+  `,
+};
