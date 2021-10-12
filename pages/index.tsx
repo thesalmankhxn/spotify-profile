@@ -1,7 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
-import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
@@ -12,8 +10,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Spotify Profile</h1>
+      <main className="bg-black w-full text-white" style={{ height: "100vh" }}>
+        <h1>Spotify Profile</h1>
       </main>
 
       <footer className="bg-black w-full text-white text-center p-2 grid place-items-center fixed bottom-0">

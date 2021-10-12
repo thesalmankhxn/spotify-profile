@@ -1,5 +1,6 @@
 module.exports = {
-  purge: [],
+  mode: "jit",
+  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -11,9 +12,7 @@ module.exports = {
         md: { max: "980px" },
         xmd: { max: "920px" },
         xxmd: { max: "780px" },
-        sm: { max: "640px" },
-        xsm: { max: "540px" },
-        xxsm: { max: "480px" },
+        sm: { max: "540px" },
       },
     },
   },
