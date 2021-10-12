@@ -1,28 +1,50 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { extractCritical } from "@emotion/server";
+import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
+    const sheet = new ServerStyleSheet();
     const initialProps = await Document.getInitialProps(ctx);
-    const page = await ctx.renderPage();
+    const page = ctx.renderPage;
     const styles = extractCritical(page.html);
-    return { ...initialProps, ...page, ...styles };
+
+    try {
+      ctx.renderPage = () =>
+        page({
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
+        });
+
+      const initialProps = await Document.getInitialProps(ctx);
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      };
+    } finally {
+      sheet.seal();
+    }
   }
 
-  render() {
-    return (
-      <Html lang="en">
-        <Head>
-          <style
-            data-emotion-css={this.props.ids.join(" ")}
-            dangerouslySetInnerHTML={{ __html: this.props.css }}
-          />
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
-    );
-  }
+  //   render() {
+  //     return (
+  //       <Html lang="en">
+  //         <Head>
+  //           <style
+  //             data-emotion-css={this.props.ids.join(" ")}
+  //             dangerouslySetInnerHTML={{ __html: this.props.css }}
+  //           />
+  //         </Head>
+  //         <body>
+  //           <Main />
+  //           <NextScript />
+  //         </body>
+  //       </Html>
+  //     );
+  //   }
 }
