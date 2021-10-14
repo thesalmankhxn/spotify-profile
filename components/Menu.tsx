@@ -20,10 +20,9 @@ const Menu = () => {
   return (
     <Styled.Layout>
       {menuItems.map((item, index) => (
-        <Link href={item.path}>
+        <Link href={item.path} key={index}>
           <a>
             <Styled.MenuButton
-              key={index}
               className={router.pathname == item.path ? "active" : ""}
             >
               <i className={item.icon}></i>

@@ -11,6 +11,7 @@ const scopes = [
 ];
 
 export const getTokenFromResponse = () => {
+  if (!window.location.hash) return; 
   return window.location.hash
     .substring(1)
     .split("&")
