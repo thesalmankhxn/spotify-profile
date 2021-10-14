@@ -9,7 +9,11 @@ import { accessUrl } from "./spotify";
 const Login = () => {
   return (
     <Styled.Layout>
-      <SpotifyLogo width="400" height="300" className="mb-30p" />
+      <SpotifyLogo
+        height="300"
+        className="mb-30p"
+        style={{ width: "80%", maxWidth: "400px" }}
+      />
       <Styled.Link href={accessUrl}>Login with Spotify</Styled.Link>
     </Styled.Layout>
   );
