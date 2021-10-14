@@ -4,24 +4,14 @@ import tw from "twin.macro";
 import styled from "styled-components";
 
 import SpotifyLogo from "../public/Spotify-Logo.svg";
-import { accessUrl, getTokenFromResponse } from "./spotify";
+import { accessUrl } from "./spotify";
 
 const Login = () => {
-  const [token, setToken] = useState({});
-  useEffect(() => {
-    const _token = getTokenFromResponse();
-    setToken(_token);
-  }, []);
-
   return (
-    <>
-      {!token && (
-        <Styled.Layout>
-          <SpotifyLogo width="400" height="300" className="mb-30p" />
-          <Styled.Link href={accessUrl}>Login with Spotify</Styled.Link>
-        </Styled.Layout>
-      )}
-    </>
+    <Styled.Layout>
+      <SpotifyLogo width="400" height="300" className="mb-30p" />
+      <Styled.Link href={accessUrl}>Login with Spotify</Styled.Link>
+    </Styled.Layout>
   );
 };
 
