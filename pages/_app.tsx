@@ -25,14 +25,12 @@ function MyApp({ Component, pageProps }) {
     if (_token) {
       setToken(_token);
       spotify.setAccessToken(_token);
-
-      spotify.getMe().then((user) => console.log(user));
     }
   }, []);
 
   return (
     <Layout>
-      <Component {...pageProps} />
+      <Component {...pageProps} token={token} spotify={spotify} />
       {!token && <Login />}
     </Layout>
   );

@@ -16,7 +16,6 @@ const menuItems = [
 
 const Menu = () => {
   const router = useRouter();
-  console.log(router.pathname);
   return (
     <Styled.Layout>
       {menuItems.map((item, index) => (
@@ -38,6 +37,8 @@ const Menu = () => {
 const Styled = {
   Layout: styled.div`
     ${tw`grid grid-cols-4 gap-x-10p w-full absolute bottom-0 left-0 bg-black77-dark text-12p`}
+
+    box-shadow: rgb(0 0 0 / 30%) 0px 0px 10px;
 
     @media (min-width: 768px) {
       ${tw`flex flex-col gap-y-10p justify-center`}

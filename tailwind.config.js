@@ -130,6 +130,12 @@ module.exports = {
           light: "#181818",
           dark: "#040306",
         },
+        green77: {
+          light: "#1ed760",
+        },
+        grey77: {
+          light: "#9b9b9b",
+        },
       },
     },
   },
