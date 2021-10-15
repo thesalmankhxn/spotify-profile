@@ -7,6 +7,7 @@ const scopes = [
   "user-read-recently-played",
   "user-read-playback-state",
   "user-top-read",
+  "user-follow-read",
   "user-modify-playback-state",
 ];
 
