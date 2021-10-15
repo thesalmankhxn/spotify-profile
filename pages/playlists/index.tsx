@@ -37,8 +37,8 @@ const Playlists = ({ token, spotify }) => {
         <Styled.Container>
           {playlists ? (
             playlists?.items?.map((playlist, i) => (
-              <div>
-                <Styled.Playlist key={i}>
+              <div key={i}>
+                <Styled.Playlist>
                   <Styled.PlaylistCover href={`playlists/${playlist?.id}`}>
                     <a>
                       {playlist?.images?.length ? (
