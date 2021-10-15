@@ -28,6 +28,8 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
+  console.log(token);
+
   return (
     <Layout>
       <Component {...pageProps} token={token} spotify={spotify} />
