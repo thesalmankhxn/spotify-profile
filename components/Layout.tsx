@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
 
       <main
         className="py-15p bg-black77-light w-full text-white relative"
-        style={{ height: "100vh" }}
+        style={{ minHeight: "100vh" }}
       >
         <Menu />
         {children}
