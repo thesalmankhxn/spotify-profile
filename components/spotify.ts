@@ -1,8 +1,5 @@
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 
-const clientId = "7894ed9dfe814c0f9c349d74ed147cab";
-const redirectUri = "https://spotify-profile-lu4gunwch-iamsk77.vercel.app/";
-// const redirectUri = "http://localhost:3000/";
 const scopes = [
   "user-read-currently-playing",
   "user-read-recently-played",
@@ -13,7 +10,7 @@ const scopes = [
 ];
 
 export const getTokenFromResponse = () => {
-  if (!window.location.hash) return; 
+  if (!window.location.hash) return;
   return window.location.hash
     .substring(1)
     .split("&")
@@ -25,6 +22,21 @@ export const getTokenFromResponse = () => {
     }, {});
 };
 
-export const accessUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+export const setLocalAccessToken = (token: string) => {
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem("spotify_access_token", token);
+  }
+};
+
+export const getLocalAccessToken = () => {
+  if (typeof window !== "undefined") {
+    let token = window.localStorage.getItem("spotify_access_token");
+    return token;
+  }
+};
+
+export const accessUrl = `${authEndpoint}?client_id=${
+  process.env.CLIENT_ID
+}&redirect_uri=${process.env.REDIRECT_URI}&scope=${scopes.join(
   "%20"
 )}&response_type=token&show_dialog=true`;
