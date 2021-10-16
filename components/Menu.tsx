@@ -36,8 +36,10 @@ const Menu = () => {
 
 const Styled = {
   Layout: styled.div`
-    ${tw`grid grid-cols-4 gap-x-10p w-full absolute bottom-0 left-0 bg-black77-dark text-12p`}
-
+    ${tw`grid grid-cols-4 gap-x-10p w-full absolute bg-black77-dark text-12p`}
+    bottom: 0vh;
+    left: 0vh;
+    right: 0vh;
     box-shadow: rgb(0 0 0 / 30%) 0px 0px 10px;
 
     @media (min-width: 768px) {
