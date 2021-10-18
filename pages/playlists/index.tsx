@@ -94,14 +94,6 @@ const Styled = {
     @media (min-width: 768px) {
       ${tw`px-80p`}
     }
-
-    @media (min-width: 1440px) {
-      ${tw`px-120p`}
-    }
-
-    @media (min-width: 1500px) {
-      ${tw`px-200p`}
-    }
   `,
 
   Playlist: styled.div`
