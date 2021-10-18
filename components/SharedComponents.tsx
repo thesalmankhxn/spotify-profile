@@ -138,7 +138,7 @@ export const TrackItem = ({ track }) => (
             {track.artists && track.album && (
               <TrackAlbum>
                 {track.artists &&
-                  track.artists.map(({ name }, i) => (
+                  track.artists.map(({ name }: any, i: React.Key) => (
                     <span key={i}>
                       {name}
                       {track.artists.length > 0 &&

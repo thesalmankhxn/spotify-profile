@@ -17,7 +17,9 @@ const PlaylistDetail = ({ token, spotify }) => {
 
   const getPlaylist = async () => {
     if (!token && query.id) return;
-    spotify.getPlaylist(query.id).then((playlist) => setPlaylist(playlist));
+    spotify
+      .getPlaylist(query.id)
+      .then((playlist: Playlist) => setPlaylist(playlist));
   };
 
   useEffect(() => {
