@@ -19,13 +19,10 @@ const Layout = ({ children }) => {
         ></link>
       </Head>
 
-      <main
-        className="py-15p bg-black77-light w-full text-white relative"
-        style={{ minHeight: "100vh" }}
-      >
+      <Styled.Main>
         <Menu />
         {children}
-      </main>
+      </Styled.Main>
 
       <Styled.SK77>
         <Link href="https://mahmoodkhan.me">
@@ -46,6 +43,16 @@ const Styled = {
       ${tw`block top-0 bg-black text-white text-center p-2 grid place-items-center fixed`}
       bottom: auto;
       width: 80px;
+    }
+  `,
+
+  Main: styled.main`
+    ${tw`py-15p bg-black77-light w-full text-white relative`}
+
+    height: 100vh;
+
+    @media (max-width: 768px) {
+      min-height: 100vh;
     }
   `,
 };
