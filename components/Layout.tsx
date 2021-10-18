@@ -20,8 +20,10 @@ const Layout = ({ children }) => {
       </Head>
 
       <Styled.Main>
-        <Menu />
-        {children}
+        <Styled.Contianer>
+          <Menu />
+          {children}
+        </Styled.Contianer>
       </Styled.Main>
 
       <Styled.SK77>
@@ -46,14 +48,40 @@ const Styled = {
     }
   `,
 
-  Main: styled.main`
+  Contianer: styled.div`
     ${tw`py-15p bg-black77-light w-full text-white relative`}
-
+    max-width: 1440px;
     height: 100vh;
 
     @media (max-width: 768px) {
       min-height: 100vh;
     }
+  `,
+
+  Main: styled.main`
+    ${tw`bg-black77-light flex justify-center overflow-auto`}
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #ffffff;
+      background-image: linear-gradient(315deg, #ffffff 0%, #fafafa 74%);
+      border-radius: 10px;
+
+      &:hover {
+        background-color: #ffffff;
+        background-image: linear-gradient(315deg, #e9e9e9 0%, #ececec 74%);
+      }
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #000000;
   `,
 };
 
