@@ -23,15 +23,17 @@ const TopTracks = ({ token, spotify }) => {
   return (
     <Layout>
       <Heading>Top Tracks</Heading>
-      {tracks?.items?.length > 0 ? (
-        <div>
-          {tracks?.items?.map((track: any, i: React.Key) => (
-            <TrackItem track={track} key={i} />
-          ))}
-        </div>
-      ) : (
-        <MusicBars />
-      )}
+      <div className="mt-50p">
+        {tracks?.items?.length > 0 ? (
+          <div>
+            {tracks?.items?.map((track: any, i: React.Key) => (
+              <TrackItem track={track} key={i} />
+            ))}
+          </div>
+        ) : (
+          <MusicBars />
+        )}
+      </div>
     </Layout>
   );
 };

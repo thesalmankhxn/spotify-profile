@@ -17,12 +17,21 @@ export const Layout = styled.div`
   }
 `;
 
+export const PlaylistName = styled.a`
+  ${tw`mb-20p font-semibold cursor-pointer w-full inline text-white`}
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.3, 0, 0.4, 1) 0s;
+
+  &:hover,
+  &:focus {
+    border-bottom: 1px solid white;
+  }
+`;
+
 // TRACK ITEM
 const TrackLeft = styled.span`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding-right: 1px;
+  ${tw`truncate`}
 `;
 const TrackRight = styled.span``;
 const TrackArtwork = styled.div`
@@ -40,12 +49,12 @@ const Mask = styled.div`
   transition: all 0.25s cubic-bezier(0.3, 0, 0.4, 1);
   svg {
     width: 25px;
+    fill: #fff;
   }
 `;
 
-const TrackContainer = styled(Link)`
-  ${tw`grid items-center mb-30p`}
-  grid-template-columns: auto 1fr;
+const TrackContainer = styled.a`
+  ${tw`flex mb-30p`}
 
   @media (min-width: 768px) {
     ${tw`mb-20p`}
@@ -60,17 +69,7 @@ const TrackContainer = styled(Link)`
 `;
 
 const TrackMeta = styled.div`
-  display: grid;
-  grid-template-columns: 1fr max-content;
-  grid-gap: 10px;
-`;
-const TrackName = styled.span`
-  margin-bottom: 5px;
-  border-bottom: 1px solid transparent;
-  &:hover,
-  &:focus {
-    border-bottom: 1px solid #fff;
-  }
+  ${tw`flex justify-between w-full`}
 `;
 const TrackAlbum = styled.div`
   overflow: hidden;
@@ -97,10 +96,10 @@ export const formatDuration = (millis) => {
 };
 
 export const TrackItem = ({ track }) => (
-  <li>
-    <TrackContainer href="">
-      <a>
-        <div>
+  <div className="cursor-pointer">
+    <Link href="">
+      <TrackContainer>
+        <div className="mr-20p">
           <TrackArtwork>
             {track.album.images.length && (
               <img src={track.album.images[2].url} alt="Album Artwork" />
@@ -112,7 +111,7 @@ export const TrackItem = ({ track }) => (
         </div>
         <TrackMeta>
           <TrackLeft>
-            {track.name && <TrackName>{track.name}</TrackName>}
+            {track.name && <PlaylistName>{track.name}</PlaylistName>}
             {track.artists && track.album && (
               <TrackAlbum>
                 {track.artists &&
@@ -137,7 +136,7 @@ export const TrackItem = ({ track }) => (
             )}
           </TrackRight>
         </TrackMeta>
-      </a>
-    </TrackContainer>
-  </li>
+      </TrackContainer>
+    </Link>
+  </div>
 );
