@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 
+import { AppProvider } from "../utils/context";
+
 import Layout from "../components/Layout";
 import Login from "../components/Login";
+
+import { getTokenFromResponse } from "../utils/spotify";
 import SpotifyWebApi from "spotify-web-api-js";
-import { getTokenFromResponse } from "../components/spotify";
 
 const spotify = new SpotifyWebApi();
 
@@ -18,6 +21,8 @@ function MyApp({ Component, pageProps }) {
   const [token, setToken] = useState<string>(null);
 
   useEffect(() => {
+    if (token) return;
+
     const hash: TokenHash = getTokenFromResponse();
     window.location.hash = "";
     const _token = hash?.access_token;
@@ -28,12 +33,12 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-  console.log(token);
-
   return (
     <Layout>
-      <Component {...pageProps} token={token} spotify={spotify} />
-      {!token && <Login />}
+      <AppProvider token={token} spotify={spotify}>
+        <Component {...pageProps} />
+        {!token && <Login />}
+      </AppProvider>
     </Layout>
   );
 }

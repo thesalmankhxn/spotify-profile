@@ -8,7 +8,7 @@ import tw from "twin.macro";
 import { Layout, Heading } from "../../components/SharedComponents";
 import MusicBars from "../../components/MusicBars";
 
-import { Playlist } from "../../components/type";
+import { Playlist } from "../../models/type";
 
 const PlaylistDetail = ({ token, spotify }) => {
   const { query } = useRouter();
@@ -28,8 +28,6 @@ const PlaylistDetail = ({ token, spotify }) => {
     };
     FetchUser();
   }, [token]);
-
-  console.log(playlist);
 
   return (
     <Layout>

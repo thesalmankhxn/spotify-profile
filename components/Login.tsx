@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import styled from "styled-components";
 
 import SpotifyLogo from "../public/Spotify-Logo.svg";
-import { accessUrl } from "./spotify";
+import { accessUrl } from "../utils/spotify";
 
 const Login = () => {
   return (
