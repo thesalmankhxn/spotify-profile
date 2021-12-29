@@ -8,7 +8,7 @@ import IconMusic from "../../components/IconMusic";
 import MusicBars from "../../components/MusicBars";
 import { Heading, Layout } from "../../components/SharedComponents";
 
-import { Playlists as IPlaylists } from "../../components/type";
+import { Playlists as IPlaylists } from "../../models/type";
 
 const Playlists = ({ token, spotify }) => {
   const [playlists, setPlaylists] = useState<IPlaylists>(null);

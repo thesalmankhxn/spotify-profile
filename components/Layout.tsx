@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
 };
 
 const Styled = {
-  SK77: styled.div`
+  SK77: styled.footer`
     ${tw`bg-black w-full text-white text-center p-2 grid place-items-center fixed bottom-0 md:hidden`}
 
     @media (min-width: 768px) {

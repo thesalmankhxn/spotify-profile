@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import tw from "twin.macro";
 import styled from "styled-components";
+import AppContext from "../utils/context";
 
 import Musicbars from "../components/MusicBars";
 import IconUser from "../components/IconUser";
 import Link from "next/link";
 import { Layout } from "../components/SharedComponents";
 
-import { User, Playlists } from "../components/type";
+import { User, Playlists } from "../models/type";
 
-export default function Home({ token, spotify }) {
+export default function Home() {
   const [user, setUser] = useState<User>(null);
   const [followedArtists, setFollowedArtists] = useState(null);
   const [playlists, setPlaylists] = useState<Playlists>(null);
+
+  const { token, spotify } = useContext(AppContext)?.value;
 
   const getUser = async () => {
     if (!token) return;

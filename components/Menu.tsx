@@ -36,7 +36,7 @@ const Menu = () => {
 
 const Styled = {
   Layout: styled.div`
-    ${tw`grid grid-cols-4 gap-x-10p w-full fixed bg-black77-dark text-12p`}
+    ${tw`grid grid-cols-4 gap-x-10p w-full fixed bg-black77-dark text-12p z-10`}
     bottom: 0vh;
     left: 0vh;
     right: 0vh;

@@ -19,7 +19,6 @@ const TopTracks = ({ token, spotify }) => {
     FetchUser();
   }, [token]);
 
-  console.log(tracks);
   return (
     <Layout>
       <Heading>Top Tracks</Heading>
