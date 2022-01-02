@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -7,10 +7,13 @@ import IconMusic from "../../components/IconMusic";
 
 import MusicBars from "../../components/MusicBars";
 import { Heading, Layout } from "../../components/SharedComponents";
+import AppContext from "../../lib/context";
 
 import { Playlists as IPlaylists } from "../../models/type";
 
-const Playlists = ({ token, spotify }) => {
+const Playlists = () => {
+  const { token, spotify } = useContext(AppContext)?.value;
+
   const [playlists, setPlaylists] = useState<IPlaylists>(null);
 
   const getPlaylists = async () => {

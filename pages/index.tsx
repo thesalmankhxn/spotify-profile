@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 
 import tw from "twin.macro";
 import styled from "styled-components";
-import AppContext from "../utils/context";
+import AppContext from "../lib/context";
 
 import Musicbars from "../components/MusicBars";
 import IconUser from "../components/IconUser";

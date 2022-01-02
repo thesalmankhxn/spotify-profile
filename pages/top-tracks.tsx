@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MusicBars from "../components/MusicBars";
 import { Heading, Layout, TrackItem } from "../components/SharedComponents";
+import AppContext from "../lib/context";
 
-const TopTracks = ({ token, spotify }) => {
+const TopTracks = () => {
+  const { token, spotify } = useContext(AppContext)?.value;
+
   const [tracks, setTracks] = useState(null);
 
   const getTracks = async () => {

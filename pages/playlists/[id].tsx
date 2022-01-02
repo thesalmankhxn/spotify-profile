@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -9,8 +9,11 @@ import { Layout, Heading } from "../../components/SharedComponents";
 import MusicBars from "../../components/MusicBars";
 
 import { Playlist } from "../../models/type";
+import AppContext from "../../lib/context";
 
-const PlaylistDetail = ({ token, spotify }) => {
+const PlaylistDetail = () => {
+  const { token, spotify } = useContext(AppContext)?.value;
+
   const { query } = useRouter();
 
   const [playlist, setPlaylist] = useState<Playlist>(null);

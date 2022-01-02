@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 
 export interface IAppContext {

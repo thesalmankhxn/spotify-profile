@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 
-import { AppProvider } from "../utils/context";
+import { AppProvider } from "../lib/context";
 
 import Layout from "../components/Layout";
 import Login from "../components/Login";
 
-import { getTokenFromResponse } from "../utils/spotify";
+import { getTokenFromResponse } from "../lib/spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 
 const spotify = new SpotifyWebApi();
@@ -36,8 +36,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Layout>
       <AppProvider token={token} spotify={spotify}>
-        <Component {...pageProps} />
-        {!token && <Login />}
+        {!token ? <Login /> : <Component {...pageProps} />}
       </AppProvider>
     </Layout>
   );
