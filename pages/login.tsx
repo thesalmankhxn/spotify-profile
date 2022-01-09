@@ -21,7 +21,10 @@ const Login = () => {
 
 const Styled = {
   Layout: styled.div`
-    ${tw`z-10 fixed bg-black inset-0 grid place-items-center`}
+    ${tw`fixed bg-black inset-0 grid place-items-center`}
+    height: 100vh;
+    width: 100vw;
+    z-index: 99;
   `,
   Link: styled.a`
     ${tw`px-20p py-12p rounded-full font-semibold`}

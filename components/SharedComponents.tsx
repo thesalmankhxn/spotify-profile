@@ -17,6 +17,12 @@ export const Layout = styled.div`
   }
 `;
 
+export const Card = styled.div<{ theme?: string | null }>`
+  ${tw`p-15p rounded`}
+  box-shadow: 0px 3px 15px ${({ theme }) =>
+    theme === "dark" ? "#090a09" : "#0000001A"}; ;
+`;
+
 export const PlaylistName = styled.a`
   ${tw`mb-20p font-semibold cursor-pointer w-full inline text-white`}
   border-bottom: 1px solid transparent;

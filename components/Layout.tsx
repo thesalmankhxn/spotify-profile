@@ -49,7 +49,7 @@ const Styled = {
   `,
 
   Contianer: styled.div`
-    ${tw`py-15p bg-black77-light w-full text-white relative`}
+    ${tw`bg-black77-light w-full text-white relative`}
     max-width: 1440px;
     height: 100vh;
 

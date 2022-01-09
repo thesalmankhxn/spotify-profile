@@ -7,16 +7,17 @@ import AppContext from "../lib/context";
 import Musicbars from "../components/MusicBars";
 import IconUser from "../components/IconUser";
 import Link from "next/link";
-import { Layout } from "../components/SharedComponents";
+import { Card, Layout } from "../components/SharedComponents";
 
 import { User, Playlists } from "../models/type";
+import { GetServerSideProps } from "next";
 
 export default function Home() {
   const [user, setUser] = useState<User>(null);
   const [followedArtists, setFollowedArtists] = useState(null);
   const [playlists, setPlaylists] = useState<Playlists>(null);
 
-  const { token, spotify } = useContext(AppContext)?.value;
+  const { token, spotify, theme } = useContext(AppContext)?.value;
 
   const getUser = async () => {
     if (!token) return;
@@ -55,44 +56,54 @@ export default function Home() {
       {!user && !followedArtists && !playlists ? (
         <Musicbars />
       ) : (
-        <div className="flex flex-col items-center">
-          <Styled.Avatar>
-            {user?.images?.length > 0 ? (
-              <img src={user?.images[0]?.url} className="rounded-full" />
-            ) : (
-              <IconUser />
-            )}
-          </Styled.Avatar>
-          <Link href={user?.external_urls?.spotify ?? ""}>
-            <a target="_blank" rel="noopener">
-              <Styled.Name>{user?.display_name}</Styled.Name>
-            </a>
-          </Link>
-          <Styled.TextLayout>
-            <div className="text-center">
-              <Styled.SGText>{user?.followers?.total}</Styled.SGText>
-              <Styled.XSText>FOLLOWERS</Styled.XSText>
-            </div>
-            {followedArtists && (
+        <Card theme={theme}>
+          <div className="flex flex-col items-center">
+            <Styled.Avatar>
+              {user?.images?.length > 0 ? (
+                <img src={user?.images[0]?.url} className="rounded-full" />
+              ) : (
+                <IconUser />
+              )}
+            </Styled.Avatar>
+            <Link href={user?.external_urls?.spotify ?? ""}>
+              <a target="_blank" rel="noopener">
+                <Styled.Name>{user?.display_name}</Styled.Name>
+              </a>
+            </Link>
+            <Styled.TextLayout>
               <div className="text-center">
-                <Styled.SGText>
-                  {followedArtists?.artists?.items?.length}
-                </Styled.SGText>
-                <Styled.XSText>FOLLOWING</Styled.XSText>
+                <Styled.SGText>{user?.followers?.total}</Styled.SGText>
+                <Styled.XSText>FOLLOWERS</Styled.XSText>
               </div>
-            )}
-            {playlists && (
-              <div className="text-center">
-                <Styled.SGText>{playlists?.items?.length}</Styled.SGText>
-                <Styled.XSText>PLAYLISTS</Styled.XSText>
-              </div>
-            )}
-          </Styled.TextLayout>
-        </div>
+              {followedArtists && (
+                <div className="text-center">
+                  <Styled.SGText>
+                    {followedArtists?.artists?.items?.length}
+                  </Styled.SGText>
+                  <Styled.XSText>FOLLOWING</Styled.XSText>
+                </div>
+              )}
+              {playlists && (
+                <div className="text-center">
+                  <Styled.SGText>{playlists?.items?.length}</Styled.SGText>
+                  <Styled.XSText>PLAYLISTS</Styled.XSText>
+                </div>
+              )}
+            </Styled.TextLayout>
+          </div>
+        </Card>
       )}
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const token = ctx.req.cookies.auth_token;
+
+  return {
+    props: {},
+  };
+};
 
 const Styled = {
   Avatar: styled.div`
