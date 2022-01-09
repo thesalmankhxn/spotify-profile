@@ -99,7 +99,13 @@ export default function Home() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const token = ctx.req.cookies.auth_token;
-
+  if (!token)
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
   return {
     props: {},
   };

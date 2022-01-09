@@ -22,11 +22,10 @@ function MyApp({ Component, pageProps }) {
   const [token, setToken] = useState<string>(cookie.get("auth_token"));
   spotify.setAccessToken(token || cookie.get("auth_token"));
 
-  useEffect(() => {
-    if (!token === null || !token === undefined) {
-      Router.push("/login");
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) return;
+  //   Router.push("/login");
+  // }, [token]);
 
   useEffect(() => {
     if (!!cookie.get("auth_token")) return;
