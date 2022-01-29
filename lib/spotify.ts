@@ -7,7 +7,16 @@ const scopes = [
   "user-top-read",
   "user-follow-read",
   "user-modify-playback-state",
+  "user-read-email",
+  "playlist-read-private",
+  "playlist-read-collaborative",
+  "user-read-private",
+  "user-library-read",
 ];
+
+const params = {
+  scope: scopes
+}
 
 export const getTokenFromResponse = () => {
   if (!window.location.hash) return;
@@ -35,8 +44,7 @@ export const getLocalAccessToken = () => {
   }
 };
 
-export const accessUrl = `${authEndpoint}?client_id=${
-  process.env.CLIENT_ID
-}&redirect_uri=${process.env.REDIRECT_URI}&scope=${scopes.join(
-  "%20"
-)}&response_type=token&show_dialog=true`;
+export const accessUrl = `${authEndpoint}?client_id=${process.env.CLIENT_ID
+  }&redirect_uri=${process.env.REDIRECT_URI}&scope=${scopes.join(
+    "%20"
+  )}&response_type=token&show_dialog=true`;

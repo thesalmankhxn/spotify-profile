@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useSession, getSession, signIn, signOut } from "next-auth/react";
 
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -16,6 +17,9 @@ export default function Home() {
   const [user, setUser] = useState<User>(null);
   const [followedArtists, setFollowedArtists] = useState(null);
   const [playlists, setPlaylists] = useState<Playlists>(null);
+
+  const { data } = useSession();
+  console.log(data, "==================================");
 
   const { token, spotify, theme } = useContext(AppContext)?.value;
 
@@ -98,14 +102,16 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const token = ctx.req.cookies.auth_token;
-  if (!token)
+  const session = await getSession(ctx);
+
+  if (!session)
     return {
       redirect: {
-        destination: "/login",
+        destination: "/signin",
         permanent: false,
       },
     };
+
   return {
     props: {},
   };
