@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useSession, getSession, signIn, signOut } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 
 import tw from "twin.macro";
 import styled from "styled-components";
