@@ -11,18 +11,19 @@ import {
   getSession,
   LiteralUnion,
   signIn,
+  getCsrfToken,
 } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import { BuiltInProviderType } from "next-auth/providers";
 
-type propType = {
-  providers: Record<
-    LiteralUnion<BuiltInProviderType, string>,
-    ClientSafeProvider
-  >;
-};
+// type propType = {
+//   providers: Record<
+//     LiteralUnion<BuiltInProviderType, string>,
+//     ClientSafeProvider
+//   >;
+// };
 
-const Signin = ({ providers }: propType) => {
+const Signin = () => {
   return (
     <Styled.Layout>
       <SpotifyLogo
@@ -31,20 +32,22 @@ const Signin = ({ providers }: propType) => {
         style={{ width: "80%", maxWidth: "400px" }}
       />
 
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <Styled.Button onClick={() => signIn(provider.id)}>
-            Sign in with {provider.name}
-          </Styled.Button>
-        </div>
-      ))}
+      {/* {Object.values(providers).map((provider) => ( */}
+      {/* <div key={provider.name}> */}
+      <Styled.Button onClick={() => signIn("spotify")}>
+        Sign in with Spotify
+      </Styled.Button>
+      {/* </div> */}
+      {/* ))} */}
     </Styled.Layout>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
-  const providers = await getProviders();
+  const { req, res } = ctx;
+  const session = await getSession({ req });
+  // const providers = await getProviders();
+  // console.log(session.accessToken, "accessToken /page");
   if (session)
     return {
       redirect: {
@@ -53,9 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   return {
-    props: {
-      providers,
-    },
+    props: {},
   };
 };
 
