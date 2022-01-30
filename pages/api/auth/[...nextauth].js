@@ -1,5 +1,20 @@
 import NextAuth from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
+import { RequestDefaults } from "../../../pages/api/spotify/index";
+
+const returnAccessToken = async (token) => {
+  try {
+    const headers = {
+      Authorization: `Bearer ${token.accessToken}`,
+      "Content-Type": "application/json",
+    };
+
+    RequestDefaults.changeToken(token?.accessToken);
+    return headers;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -21,4 +36,35 @@ export default NextAuth({
   pages: {
     signIn: "/signin",
   },
+  callbacks: {
+    async jwt({ token, account, user }) {
+      if (account && user) {
+        return { ...token, accessToken: account.access_token };
+      }
+
+      return await returnAccessToken(token);
+    },
+    // async jwt(token, user, account = {}) {
+    //   if (account.provider && !token[account.provider]) {
+    //     token[account.provider] = {};
+    //   }
+
+    //   if (account.accessToken) {
+    //     token[account.provider].accessToken = account.accessToken;
+    //   }
+
+    //   if (account.refreshToken) {
+    //     token[account.provider].refreshToken = account.refreshToken;
+    //   }
+
+    //   return token;
+    // },
+
+    async session({ session, token }) {
+      session.user.accessToken = token.accessToken;
+
+      return session;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 });

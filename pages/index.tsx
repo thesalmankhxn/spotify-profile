@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useSession, getSession } from "next-auth/react";
+import React, { useState, useContext, useEffect } from "react";
+import { getSession } from "next-auth/react";
 
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -11,49 +11,48 @@ import Link from "next/link";
 import { Card, Layout } from "../components/SharedComponents";
 
 import { User, Playlists } from "../models/type";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { getHeaders, RequestDefaults } from "../pages/api/spotify/index";
+import { ParsedUrlQuery } from "querystring";
+import { getUser } from "../lib/spotify";
 
-export default function Home() {
-  const [user, setUser] = useState<User>(null);
+export default function Home({ _user }) {
+  const [user, setUser] = useState<User>(_user);
   const [followedArtists, setFollowedArtists] = useState(null);
   const [playlists, setPlaylists] = useState<Playlists>(null);
 
-  const { data } = useSession();
-  console.log(data, "==================================");
+  const { theme } = useContext(AppContext)?.value;
 
-  const { token, spotify, theme } = useContext(AppContext)?.value;
+  // const _getUser = async () => {
+  //   spotifyApi
+  //     .getMe()
+  //     .then((user: React.SetStateAction<User>) => setUser(user));
+  // };
 
-  const getUser = async () => {
-    if (!token) return;
-    spotify.getMe().then((user: React.SetStateAction<User>) => setUser(user));
-  };
+  // const getFollowedArtists = async () => {
+  //   spotifyApi
+  //     .getFollowedArtists()
+  //     .then((artists: React.SetStateAction<User>) =>
+  //       setFollowedArtists(artists)
+  //     );
+  // };
 
-  const getFollowedArtists = async () => {
-    if (!token) return;
-    spotify
-      .getFollowedArtists()
-      .then((artists: React.SetStateAction<User>) =>
-        setFollowedArtists(artists)
-      );
-  };
+  // const getPlaylists = async () => {
+  //   spotifyApi
+  //     .getUserPlaylists()
+  //     .then((playlists: React.SetStateAction<Playlists>) =>
+  //       setPlaylists(playlists)
+  //     );
+  // };
 
-  const getPlaylists = async () => {
-    if (!token) return;
-    spotify
-      .getUserPlaylists()
-      .then((playlists: React.SetStateAction<Playlists>) =>
-        setPlaylists(playlists)
-      );
-  };
-
-  useEffect(() => {
-    const FetchUser = async () => {
-      await getUser();
-      await getFollowedArtists();
-      await getPlaylists();
-    };
-    FetchUser();
-  }, [token]);
+  // useEffect(() => {
+  //   const FetchUser = async () => {
+  //     await _getUser();
+  //     // await getFollowedArtists();
+  //     // await getPlaylists();
+  //   };
+  //   FetchUser();
+  // }, []);
 
   return (
     <Layout>
@@ -103,6 +102,7 @@ export default function Home() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
+  const secret = process.env.JWT_SECRET;
 
   if (!session)
     return {
@@ -112,6 +112,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
 
+  const headers = await getHeaders(ctx);
+
+  console.log(await headers);
   return {
     props: {},
   };
