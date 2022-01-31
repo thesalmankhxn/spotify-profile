@@ -5,23 +5,8 @@ import styled from "styled-components";
 
 import SpotifyLogo from "../public/Spotify-Logo.svg";
 
-import {
-  ClientSafeProvider,
-  getProviders,
-  getSession,
-  LiteralUnion,
-  signIn,
-  getCsrfToken,
-} from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { GetServerSideProps } from "next";
-import { BuiltInProviderType } from "next-auth/providers";
-
-// type propType = {
-//   providers: Record<
-//     LiteralUnion<BuiltInProviderType, string>,
-//     ClientSafeProvider
-//   >;
-// };
 
 const Signin = () => {
   return (
@@ -32,13 +17,9 @@ const Signin = () => {
         style={{ width: "80%", maxWidth: "400px" }}
       />
 
-      {/* {Object.values(providers).map((provider) => ( */}
-      {/* <div key={provider.name}> */}
       <Styled.Button onClick={() => signIn("spotify")}>
         Sign in with Spotify
       </Styled.Button>
-      {/* </div> */}
-      {/* ))} */}
     </Styled.Layout>
   );
 };
@@ -46,9 +27,7 @@ const Signin = () => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { req, res } = ctx;
   const session = await getSession({ req });
-  // const providers = await getProviders();
-  // console.log(session.accessToken, "accessToken /page");
-  if (session)
+  if (session && session?.user)
     return {
       redirect: {
         destination: "/",

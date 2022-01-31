@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
-import { RequestDefaults } from "../../../pages/api/spotify/index";
+import spotifyApi, { RequestDefaults } from "../../../lib/spotify";
 
 const returnAccessToken = async (token) => {
   try {
@@ -10,6 +10,8 @@ const returnAccessToken = async (token) => {
     };
 
     RequestDefaults.changeToken(token?.accessToken);
+    spotifyApi.setAccessToken(RequestDefaults.token);
+
     return headers;
   } catch (error) {
     console.log(error);
@@ -36,13 +38,16 @@ export default NextAuth({
   pages: {
     signIn: "/signin",
   },
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     async jwt({ token, account, user }) {
       if (account && user) {
         return { ...token, accessToken: account.access_token };
       }
 
-      return await returnAccessToken(token);
+      return (await returnAccessToken(token)) && token;
     },
     // async jwt(token, user, account = {}) {
     //   if (account.provider && !token[account.provider]) {
@@ -60,7 +65,7 @@ export default NextAuth({
     //   return token;
     // },
 
-    async session({ session, token }) {
+    async session({ session, user, token }) {
       session.user.accessToken = token.accessToken;
 
       return session;
