@@ -1,4 +1,8 @@
 import axios from "axios";
+import { GetServerSidePropsContext } from "next";
+import { ParsedUrlQuery } from "querystring";
+import SpotifyWebApi from "spotify-web-api-node";
+
 
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 
@@ -15,6 +19,33 @@ const scopes = [
   "user-read-private",
   "user-library-read",
 ];
+
+export abstract class RequestDefaults {
+  public static token: string = '';
+
+  public static changeToken(t: string) {
+    RequestDefaults.token = t;
+  }
+}
+
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+});
+
+spotifyApi.setAccessToken(RequestDefaults.token);
+
+export default spotifyApi;
+
+export const getHeaders = async (ctx: GetServerSidePropsContext<ParsedUrlQuery>) => {
+
+  const headers = {
+    Authorization: `Bearer ${RequestDefaults.token}`,
+    "Content-Type": "application/json",
+  };
+
+  return await headers;
+}
 
 export const accessUrl = `${authEndpoint}?client_id=${process.env.CLIENT_ID
   }&redirect_uri=${process.env.REDIRECT_URI}&scope=${scopes.join(
