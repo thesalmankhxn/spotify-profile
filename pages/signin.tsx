@@ -27,7 +27,6 @@ const Signin = () => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { req, res } = ctx;
   const session = await getSession({ req });
-  console.log(session?.user?.accessToken, "accessToken /page");
   if (session && session?.user)
     return {
       redirect: {
