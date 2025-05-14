@@ -1,29 +1,33 @@
 {
   "name": "spotify-profile",
   "version": "0.1.0",
-  "description": "Spotify Profile",
-  "main": "server/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/thesalmankhxn/spotify-profile.git"
+  "private": true,
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "keywords": [],
-  "author": "Salman Khan <thesalmankhxn@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/thesalmankhxn/spotify-profile/issues"
-  },
-  "homepage": "https://github.com/thesalmankhxn/spotify-profile#readme",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "engines": {
-    "node": "10.13.0"
+    "node": ">=18.0.0"
   },
+  "babelMacros": {
+    "styledComponents": {
+      "pure": true
+    }
+  },
+  "homepage": "https://spotify-profile.herokuapp.com",
+  "proxy": "http://localhost:8888",
   "scripts": {
-    "client:install": "cd client && pnpm install",
-    "client": "cd client && pnpm start",
-    "server": "node server",
-    "dev": "concurrently --kill-others-on-fail \"pnpm server\" \"pnpm client\"",
-    "start": "node server",
-    "heroku-postbuild": "cd client/ && pnpm install && pnpm build"
+    "start": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "test": "vitest",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "lint-staged": {
     "*.{js,css,json,md}": [
@@ -39,23 +43,43 @@
     }
   },
   "dependencies": {
-    "connect-history-api-fallback": "^1.6.0",
-    "cookie-parser": "1.4.4",
-    "cors": "^2.8.5",
-    "dotenv": "^8.1.0",
-    "express": "~4.17.1",
-    "querystring": "~0.2.0",
-    "request": "~2.88.0"
+    "@reach/router": "^1.3.4",
+    "@tanstack/react-query": "^5.76.1",
+    "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.6.7",
+    "babel-plugin-macros": "^2.6.1",
+    "chart.js": "^4.4.1",
+    "prop-types": "^15.7.2",
+    "react": "^19.0.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.5.3",
+    "react-scripts": "3.1.1",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
-    "@upstatement/eslint-config": "^0.4.3",
-    "@upstatement/prettier-config": "^0.3.0",
-    "concurrently": "^5.1.0",
+    "@types/node": "^20.11.19",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
+    "@upstatement/eslint-config": "^0.4.2",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.21",
+    "babel-plugin-styled-components": "^1.10.6",
+    "eslint": "^8.56.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
-    "husky": "^4.2.3",
-    "lint-staged": "^10.1.1",
-    "prettier": "^2.0.2"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "postcss": "^8.5.3",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.3",
+    "vitest": "^1.2.2"
   }
 }
