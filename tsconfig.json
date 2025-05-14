@@ -20,7 +20,8 @@
       "@/*": ["src/*"]
     },
     "composite": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "eslint", "eslint-scope"]
   },
   "include": ["src"]
 }

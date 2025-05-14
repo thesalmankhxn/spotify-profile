@@ -14,6 +14,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.76.1
         version: 5.76.1(react@19.1.0)
+      '@tanstack/react-query-devtools':
+        specifier: ^5.76.1
+        version: 5.76.1(@tanstack/react-query@5.76.1(react@19.1.0))(react@19.1.0)
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
@@ -48,6 +51,12 @@ importers:
         specifier: ^4.3.2
         version: 4.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
+      '@types/eslint':
+        specifier: ^9.6.1
+        version: 9.6.1
+      '@types/eslint-scope':
+        specifier: ^8.3.0
+        version: 8.3.0
       '@types/node':
         specifier: ^20.11.19
         version: 20.17.32
@@ -1372,6 +1381,15 @@ packages:
   '@tanstack/query-core@5.76.0':
     resolution: {integrity: sha512-FN375hb8ctzfNAlex5gHI6+WDXTNpe0nbxp/d2YJtnP+IBM6OUm7zcaoCW6T63BawGOYZBbKC0iPvr41TteNVg==}
 
+  '@tanstack/query-devtools@5.76.0':
+    resolution: {integrity: sha512-1p92nqOBPYVqVDU0Ua5nzHenC6EGZNrLnB2OZphYw8CNA1exuvI97FVgIKON7Uug3uQqvH/QY8suUKpQo8qHNQ==}
+
+  '@tanstack/react-query-devtools@5.76.1':
+    resolution: {integrity: sha512-LFVWgk/VtXPkerNLfYIeuGHh0Aim/k9PFGA+JxLdRaUiroQ4j4eoEqBrUpQ1Pd/KXoG4AB9vVE/M6PUQ9vwxBQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.76.1
+      react: ^18 || ^19
+
   '@tanstack/react-query@5.76.1':
     resolution: {integrity: sha512-YxdLZVGN4QkT5YT1HKZQWiIlcgauIXEIsMOTSjvyD5wLYK8YVvKZUPAysMqossFJJfDpJW3pFn7WNZuPOqq+fw==}
     peerDependencies:
@@ -1393,8 +1411,14 @@ packages:
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
 
+  '@types/eslint-scope@8.3.0':
+    resolution: {integrity: sha512-FaY/QEfIyGJzJdkObuvtaROKv7A0zArw+be0tgXfWd1s1/AqPzEbyf7eyK0Pg0YezUpKrSwK4kgBn/kjzQOjtQ==}
+
   '@types/eslint-visitor-keys@1.0.0':
     resolution: {integrity: sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==}
+
+  '@types/eslint@9.6.1':
+    resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
 
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
@@ -9280,6 +9304,14 @@ snapshots:
 
   '@tanstack/query-core@5.76.0': {}
 
+  '@tanstack/query-devtools@5.76.0': {}
+
+  '@tanstack/react-query-devtools@5.76.1(@tanstack/react-query@5.76.1(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@tanstack/query-devtools': 5.76.0
+      '@tanstack/react-query': 5.76.1(react@19.1.0)
+      react: 19.1.0
+
   '@tanstack/react-query@5.76.1(react@19.1.0)':
     dependencies:
       '@tanstack/query-core': 5.76.0
@@ -9309,7 +9341,17 @@ snapshots:
     dependencies:
       '@babel/types': 7.27.0
 
+  '@types/eslint-scope@8.3.0':
+    dependencies:
+      '@types/eslint': 9.6.1
+      '@types/estree': 1.0.7
+
   '@types/eslint-visitor-keys@1.0.0': {}
+
+  '@types/eslint@9.6.1':
+    dependencies:
+      '@types/estree': 1.0.7
+      '@types/json-schema': 7.0.15
 
   '@types/estree@1.0.7': {}
 
@@ -11444,7 +11486,7 @@ snapshots:
       confusing-browser-globals: 1.0.11
       eslint: 8.57.1
       eslint-plugin-flowtype: 3.13.0(eslint@8.57.1)
-      eslint-plugin-import: 2.18.2(@typescript-eslint/parser@1.13.0(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-import: 2.18.2(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.2.3(eslint@8.57.1)
       eslint-plugin-react: 7.14.3(eslint@8.57.1)
       eslint-plugin-react-hooks: 1.7.0(eslint@8.57.1)
@@ -11469,11 +11511,11 @@ snapshots:
       rimraf: 2.7.1
       webpack: 4.39.1
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@1.13.0(eslint@8.57.1))(eslint-import-resolver-node@0.3.9)(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint@8.57.1):
     dependencies:
       debug: 3.2.7(supports-color@6.1.0)
     optionalDependencies:
-      '@typescript-eslint/parser': 1.13.0(eslint@8.57.1)
+      '@typescript-eslint/parser': 7.18.0(eslint@8.57.1)(typescript@5.8.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
@@ -11484,7 +11526,7 @@ snapshots:
       eslint: 8.57.1
       lodash: 4.17.21
 
-  eslint-plugin-import@2.18.2(@typescript-eslint/parser@1.13.0(eslint@8.57.1))(eslint@8.57.1):
+  eslint-plugin-import@2.18.2(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1):
     dependencies:
       array-includes: 3.1.8
       contains-path: 0.1.0
@@ -11492,14 +11534,14 @@ snapshots:
       doctrine: 1.5.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@1.13.0(eslint@8.57.1))(eslint-import-resolver-node@0.3.9)(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint@8.57.1)
       has: 1.0.4
       minimatch: 3.1.2
       object.values: 1.2.1
       read-pkg-up: 2.0.0
       resolve: 1.22.10
     optionalDependencies:
-      '@typescript-eslint/parser': 1.13.0(eslint@8.57.1)
+      '@typescript-eslint/parser': 7.18.0(eslint@8.57.1)(typescript@5.8.3)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
@@ -15039,7 +15081,7 @@ snapshots:
       eslint-config-react-app: 5.2.1(@typescript-eslint/eslint-plugin@1.13.0(@typescript-eslint/parser@1.13.0(eslint@8.57.1))(eslint@8.57.1)(typescript@5.8.3))(@typescript-eslint/parser@1.13.0(eslint@8.57.1))(babel-eslint@10.0.2(eslint@8.57.1))(eslint-plugin-flowtype@3.13.0(eslint@8.57.1))(eslint-plugin-import@2.18.2(@typescript-eslint/parser@1.13.0(eslint@8.57.1))(eslint@8.57.1))(eslint-plugin-jsx-a11y@6.2.3(eslint@8.57.1))(eslint-plugin-react-hooks@1.7.0(eslint@8.57.1))(eslint-plugin-react@7.14.3(eslint@8.57.1))(eslint@8.57.1)(typescript@5.8.3)
       eslint-loader: 2.2.1(eslint@8.57.1)(webpack@4.39.1)
       eslint-plugin-flowtype: 3.13.0(eslint@8.57.1)
-      eslint-plugin-import: 2.18.2(@typescript-eslint/parser@1.13.0(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-import: 2.18.2(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.2.3(eslint@8.57.1)
       eslint-plugin-react: 7.14.3(eslint@8.57.1)
       eslint-plugin-react-hooks: 1.7.0(eslint@8.57.1)

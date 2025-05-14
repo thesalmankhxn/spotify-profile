@@ -1,89 +1,70 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getAccessToken } from "../api/spotify";
+import { clearAuthAndRedirect } from "../App";
 
-// Constants
-const CLIENT_ID = "6c97a4c0578d4b309084733e6912d02f";
-const CLIENT_SECRET = "f6ba014afb1b42a79038c5949c06699b";
-const REDIRECT_URI = "http://localhost:5173/callback";
+interface AuthTokens {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+}
 
-const Callback = ({
-  setAccessToken,
-}: {
-  setAccessToken: (token: string) => void;
-}) => {
+const Callback = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // Mutation for getting the access token, with no auto-retry
+  const getTokenMutation = useMutation({
+    mutationFn: (code: string) => getAccessToken(code),
+    retry: 0, // Disable retries
+    onSuccess: (data: AuthTokens) => {
+      // Save tokens in localStorage
+      localStorage.setItem("spotify_access_token", data.access_token);
+      localStorage.setItem("spotify_refresh_token", data.refresh_token);
+
+      // Save token expiration time
+      const expiresIn = data.expires_in;
+      const expirationTime = new Date().getTime() + expiresIn * 1000;
+      localStorage.setItem(
+        "spotify_token_expiration",
+        expirationTime.toString()
+      );
+
+      // Invalidate any existing queries to ensure fresh data
+      queryClient.invalidateQueries();
+
+      // Navigate to profile page
+      navigate("/");
+    },
+    onError: (error) => {
+      console.error("Authentication error:", error);
+      clearAuthAndRedirect();
+    },
+  });
 
   useEffect(() => {
-    const getAccessToken = async () => {
-      // Get the authorization code from URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get("code");
+    // Get the authorization code from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
 
-      if (code) {
-        try {
-          // Exchange authorization code for access token
-          const tokenResponse = await fetch(
-            "https://accounts.spotify.com/api/token",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                Authorization: `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`,
-              },
-              body: new URLSearchParams({
-                grant_type: "authorization_code",
-                code,
-                redirect_uri: REDIRECT_URI,
-              }),
-            }
-          );
-
-          if (!tokenResponse.ok) {
-            throw new Error("Failed to get access token");
-          }
-
-          const data = await tokenResponse.json();
-
-          // Save access token to localStorage
-          localStorage.setItem("spotify_access_token", data.access_token);
-
-          // Set the access token in the parent component
-          setAccessToken(data.access_token);
-
-          // Store refresh token for later use if needed
-          localStorage.setItem("spotify_refresh_token", data.refresh_token);
-
-          // Save token expiration time
-          const expiresIn = data.expires_in;
-          const expirationTime = new Date().getTime() + expiresIn * 1000;
-          localStorage.setItem(
-            "spotify_token_expiration",
-            expirationTime.toString()
-          );
-
-          // Clear all queries to ensure fresh data
-          queryClient.invalidateQueries();
-
-          // Redirect to profile page
-          navigate("/");
-        } catch (error) {
-          console.error("Error getting access token:", error);
-          navigate("/");
-        }
-      } else {
-        // If there's no code in the URL, redirect to login
-        navigate("/");
-      }
-    };
-
-    getAccessToken();
-  }, [navigate, setAccessToken, queryClient]);
+    // Only process the code once and prevent duplicate calls
+    if (code && !isProcessing && !getTokenMutation.isPending) {
+      setIsProcessing(true);
+      // Use the React Query mutation to get the access token
+      getTokenMutation.mutate(code);
+    } else if (!code) {
+      // If there's no code in the URL, redirect to login
+      navigate("/");
+    }
+  }, [navigate, getTokenMutation, isProcessing]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <p className="text-xl">Logging you in...</p>
+      <p className="text-xl">
+        {getTokenMutation.isPending ? "Logging you in..." : "Redirecting..."}
+      </p>
     </div>
   );
 };

@@ -1,49 +1,100 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useCallback, useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserProfile, refreshAccessToken } from "../api/spotify";
 import { useNavigate } from "react-router-dom";
+import { clearAuthAndRedirect } from "../App";
 
-// Function to fetch user profile from Spotify API
-const fetchUserProfile = async () => {
-  const accessToken = localStorage.getItem("spotify_access_token");
-
-  if (!accessToken) {
-    throw new Error("No access token available");
-  }
-
-  const response = await fetch("https://api.spotify.com/v1/me", {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch user profile");
-  }
-
-  return response.json();
-};
+interface SpotifyProfile {
+  display_name: string;
+  external_urls: {
+    spotify: string;
+  };
+  followers: {
+    total: number;
+  };
+  images: {
+    url: string;
+  }[];
+  [key: string]: any;
+}
 
 const Profile = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  // Track if a refresh has already been attempted in this session
+  const refreshAttempted = React.useRef(false);
 
-  // Use React Query to fetch user profile
+  // Create a logout function
+  const handleLogout = useCallback(() => {
+    clearAuthAndRedirect();
+  }, []);
+
+  // Function to refresh the token
+  const refreshTokenAndRetry = useCallback(async () => {
+    const refreshToken = localStorage.getItem("spotify_refresh_token");
+    if (!refreshToken) return;
+
+    try {
+      const data = await refreshAccessToken(refreshToken);
+      // Save the new access token
+      localStorage.setItem("spotify_access_token", data.access_token);
+
+      // Update expiration time
+      const expiresIn = data.expires_in;
+      const expirationTime = new Date().getTime() + expiresIn * 1000;
+      localStorage.setItem(
+        "spotify_token_expiration",
+        expirationTime.toString()
+      );
+
+      // If a new refresh token is provided, update it
+      if (data.refresh_token) {
+        localStorage.setItem("spotify_refresh_token", data.refresh_token);
+      }
+
+      // Invalidate queries to force a single refetch
+      await queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+      await queryClient.refetchQueries({ queryKey: ["userProfile"] });
+
+      // Reset the refresh attempt flag after successful refresh
+      refreshAttempted.current = false;
+    } catch (error) {
+      // If refresh fails, logout
+      handleLogout();
+    }
+  }, [queryClient, handleLogout]);
+
+  // Use React Query to fetch user profile with controlled refetching
   const {
     data: profile,
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<SpotifyProfile, Error>({
     queryKey: ["userProfile"],
-    queryFn: fetchUserProfile,
+    queryFn: getUserProfile,
+    retry: false, // Disable automatic retries
+    refetchOnWindowFocus: false, // Don't refetch when window gets focus
+    refetchOnMount: false, // Don't refetch when component mounts
+    refetchOnReconnect: false, // Don't refetch on network reconnection
+    staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
   });
 
-  // Handle logout
-  const handleLogout = () => {
-    localStorage.removeItem("spotify_access_token");
-    localStorage.removeItem("spotify_refresh_token");
-    navigate("/");
-    // Force a reload to clear all React Query cache
-    window.location.reload();
-  };
+  // Handle errors separately with useEffect to fix linter errors
+  useEffect(() => {
+    if (error) {
+      // If token might be expired, try refreshing once
+      const refreshToken = localStorage.getItem("spotify_refresh_token");
+      const isTokenError = error.message === "Failed to fetch user profile";
+
+      if (isTokenError && refreshToken && !refreshAttempted.current) {
+        refreshAttempted.current = true;
+        refreshTokenAndRetry();
+      } else {
+        // For any error (including failed token refresh), redirect to login
+        handleLogout();
+      }
+    }
+  }, [error, refreshTokenAndRetry, handleLogout]);
 
   if (isLoading) {
     return (
@@ -53,12 +104,12 @@ const Profile = () => {
     );
   }
 
+  // If there's an error, we'll handle it in the useEffect and navigate away,
+  // but include this as a fallback just in case
   if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-xl text-red-500">Error loading profile</p>
-      </div>
-    );
+    // Navigate to login screen on error instead of showing error message
+    handleLogout();
+    return null;
   }
 
   return (
