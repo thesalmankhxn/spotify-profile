@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getTopArtists } from "../../api/spotify";
 import OverlayLoader from "../OverlayLoader";
