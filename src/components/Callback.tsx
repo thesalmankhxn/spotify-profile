@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAccessToken } from "../api/spotify";
 import { clearAuthAndRedirect } from "../App";
 import { useAuth } from "../context/AuthContext";
+import OverlayLoader from "./OverlayLoader";
 
 interface AuthTokens {
   access_token: string;
@@ -69,6 +70,13 @@ const Callback = () => {
     <div className="flex items-center justify-center min-h-screen">
       <p className="text-xl">
         {getTokenMutation.isPending ? "Logging you in..." : "Redirecting..."}
+
+        <OverlayLoader
+          show={getTokenMutation.isPending}
+          label={
+            getTokenMutation.isPending ? "Logging you in..." : "Redirecting..."
+          }
+        />
       </p>
     </div>
   );
