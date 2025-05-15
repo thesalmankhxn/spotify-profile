@@ -1,8 +1,8 @@
 import React from "react";
 
 // Spotify authentication constants
-const CLIENT_ID = "6c97a4c0578d4b309084733e6912d02f";
-const REDIRECT_URI = "http://localhost:5173/callback";
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
 
 // Scopes for Spotify API access
 const SCOPES = [
