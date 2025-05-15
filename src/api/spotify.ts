@@ -177,3 +177,27 @@ export const getTopTracks = async () => {
 
   return response.json();
 };
+
+// Get recently played tracks
+export const getRecentlyPlayed = async () => {
+  const accessToken = localStorage.getItem("spotify_access_token");
+
+  if (!accessToken) {
+    throw new Error("No access token available");
+  }
+
+  const response = await fetch(
+    "https://api.spotify.com/v1/me/player/recently-played?limit=50",
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recently played tracks");
+  }
+
+  return response.json();
+};

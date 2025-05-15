@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink as RouterNavLink } from "react-router-dom";
 import {
   IconSpotify,
   IconUser,
@@ -8,22 +8,7 @@ import {
   IconPlaylist,
   IconMusic,
   IconGithub,
-} from "./icons";
-
-interface NavLinkProps {
-  to: string;
-  children: React.ReactNode;
-}
-const NavLink: React.FC<NavLinkProps> = ({ to, children }) => {
-  return (
-    <Link
-      to={to}
-      className={`block w-full h-full ${window.location.pathname === to ? "active" : ""}`}
-    >
-      {children}
-    </Link>
-  );
-};
+} from "../icons";
 
 const Nav: React.FC = () => {
   return (
@@ -38,45 +23,70 @@ const Nav: React.FC = () => {
       {/* Menu */}
       <ul className="w-full grid grid-cols-1 sm:grid-cols-5 my-auto">
         <li className="text-light-grey text-xs">
-          <NavLink to="/">
+          <RouterNavLink
+            to="/"
+            className={({ isActive }) =>
+              `block w-full h-full ${isActive ? "text-white" : ""}`
+            }
+          >
             <div className="py-4 border-t-4 border-transparent hover:bg-black hover:text-white hover:border-off-green flex flex-col items-center justify-center min-sm:border-r-4 min-sm:border-t-0">
               <IconUser className="w-5 h-5 mb-1.5 mx-auto" />
               <span>Profile</span>
             </div>
-          </NavLink>
+          </RouterNavLink>
         </li>
 
         <li className="text-light-grey text-xs">
-          <NavLink to="artists">
+          <RouterNavLink
+            to="/artists"
+            className={({ isActive }) =>
+              `block w-full h-full ${isActive ? "text-white" : ""}`
+            }
+          >
             <div className="py-4 border-t-4 border-transparent hover:bg-black hover:text-white hover:border-off-green flex flex-col items-center justify-center min-sm:border-r-4 min-sm:border-t-0">
               <IconMicrophone className="w-5 h-5 mb-1.5 mx-auto" />
               <span>Top Artists</span>
             </div>
-          </NavLink>
+          </RouterNavLink>
         </li>
         <li className="text-light-grey text-xs">
-          <NavLink to="tracks">
+          <RouterNavLink
+            to="/tracks"
+            className={({ isActive }) =>
+              `block w-full h-full ${isActive ? "text-white" : ""}`
+            }
+          >
             <div className="py-4 border-t-4 border-transparent hover:bg-black hover:text-white hover:border-off-green flex flex-col items-center justify-center min-sm:border-r-4 min-sm:border-t-0">
               <IconMusic className="w-5 h-5 mb-1.5 mx-auto" />
               <span>Top Tracks</span>
             </div>
-          </NavLink>
+          </RouterNavLink>
         </li>
         <li className="text-light-grey text-xs">
-          <NavLink to="recent">
+          <RouterNavLink
+            to="/recent"
+            className={({ isActive }) =>
+              `block w-full h-full ${isActive ? "text-white" : ""}`
+            }
+          >
             <div className="py-4 border-t-4 border-transparent hover:bg-black hover:text-white hover:border-off-green flex flex-col items-center justify-center min-sm:border-r-4 min-sm:border-t-0">
               <IconTime className="w-5 h-5 mb-1.5 mx-auto" />
               <span>Recent</span>
             </div>
-          </NavLink>
+          </RouterNavLink>
         </li>
         <li className="text-light-grey text-xs">
-          <NavLink to="playlists">
+          <RouterNavLink
+            to="/playlists"
+            className={({ isActive }) =>
+              `block w-full h-full ${isActive ? "text-white" : ""}`
+            }
+          >
             <div className="py-4 border-t-4 border-transparent hover:bg-black hover:text-white hover:border-off-green flex flex-col items-center justify-center min-sm:border-r-4 min-sm:border-t-0">
               <IconPlaylist className="w-5 h-5 mb-1.5 mx-auto" />
               <span>Playlists</span>
             </div>
-          </NavLink>
+          </RouterNavLink>
         </li>
       </ul>
 

@@ -7,9 +7,9 @@ import {
   getUserPlaylists,
   getTopArtists,
   getTopTracks,
-} from "../api/spotify";
-import { useAuth } from "../context/AuthContext";
-import OverlayLoader from "./OverlayLoader";
+} from "../../api/spotify";
+import { useAuth } from "../../context/AuthContext";
+import OverlayLoader from "../OverlayLoader";
 import { Link } from "react-router-dom";
 
 interface SpotifyProfile {
