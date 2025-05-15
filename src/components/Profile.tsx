@@ -5,9 +5,12 @@ import {
   refreshAccessToken,
   getUserFollowing,
   getUserPlaylists,
+  getTopArtists,
+  getTopTracks,
 } from "../api/spotify";
 import { useAuth } from "../context/AuthContext";
 import OverlayLoader from "./OverlayLoader";
+import { Link } from "react-router-dom";
 
 interface SpotifyProfile {
   display_name: string;
@@ -21,6 +24,31 @@ interface SpotifyProfile {
     url: string;
   }[];
   [key: string]: any;
+}
+
+interface SpotifyArtist {
+  id: string;
+  name: string;
+  images: { url: string }[];
+  external_urls: {
+    spotify: string;
+  };
+}
+
+interface SpotifyTrack {
+  id: string;
+  name: string;
+  duration_ms: number;
+  artists: {
+    name: string;
+  }[];
+  album: {
+    name: string;
+    images: { url: string }[];
+  };
+  external_urls: {
+    spotify: string;
+  };
 }
 
 interface SpotifyFollowing {
@@ -116,6 +144,18 @@ const Profile = () => {
       staleTime: 5 * 60 * 1000,
     });
 
+  const { data: topArtists, isLoading: isTopArtistsLoading } = useQuery({
+    queryKey: ["topArtists"],
+    queryFn: getTopArtists,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: topTracks, isLoading: isTopTracksLoading } = useQuery({
+    queryKey: ["topTracks"],
+    queryFn: getTopTracks,
+    staleTime: 5 * 60 * 1000,
+  });
+
   // Handle token refresh on error
   if (
     profileError?.message === "Failed to fetch user profile" &&
@@ -134,6 +174,8 @@ const Profile = () => {
     isProfileLoading ||
     isFollowingLoading ||
     isPlaylistsLoading ||
+    isTopArtistsLoading ||
+    isTopTracksLoading ||
     isAuthLoading
   ) {
     return <OverlayLoader show={true} />;
@@ -142,6 +184,12 @@ const Profile = () => {
   if (profileError) {
     return null;
   }
+
+  const formatDuration = (ms: number) => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
 
   return (
     <div className="py-10 px-5 max-w-6xl mx-auto flex flex-col items-center">
@@ -153,12 +201,12 @@ const Profile = () => {
           Logout
         </button>
       </nav> */}
-      <header className="flex flex-col items-center mb-10">
+      <header className="flex flex-col items-center mb-4">
         {profile?.images?.[0]?.url && (
           <img
             src={profile.images[0].url}
             alt="Profile"
-            className="w-36 h-36 rounded-full mr-8"
+            className="w-36 h-36 rounded-full"
           />
         )}
         <div>
@@ -196,10 +244,86 @@ const Profile = () => {
       </div>
       <button
         onClick={logout}
-        className="bg-transparent text-white border border-white rounded-[30px] mt-[30px] px-[30px] py-3 text-xs font-bold uppercase tracking-[1px] hover:bg-white hover:text-black transition-colors duration-[250ms] cursor-pointer"
+        className="bg-transparent text-white border border-white rounded-[30px] mt-6 px-[30px] py-3 text-xs font-bold uppercase tracking-[1px] hover:bg-white hover:text-black transition-colors duration-[250ms] cursor-pointer"
       >
         Logout
       </button>
+      <div className="w-full mt-16 grid md:grid-cols-1 grid-cols-2 gap-16">
+        <section>
+          <div className="flex justify-between items-center mb-8 gap-x-4">
+            <h2 className="text-lg font-bold mb-0">Top Artists of All Time</h2>
+            <Link
+              to="/artists"
+              className="bg-transparent whitespace-nowrap text-white border border-white rounded-full px-8 py-2 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
+            >
+              See More
+            </Link>
+          </div>
+          <div className="space-y-4">
+            {topArtists?.items?.map((artist: SpotifyArtist) => (
+              <a
+                key={artist.id}
+                href={artist.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center group hover:bg-gray-900 p-2 rounded-lg transition-colors"
+              >
+                <img
+                  src={artist.images[0]?.url}
+                  alt={artist.name}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <span className="ml-4 text-white group-hover:text-green-500 transition-colors">
+                  {artist.name}
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <div className="flex justify-between items-center mb-8 gap-x-4">
+            <h2 className="text-lg font-bold mb-0">Top Tracks of All Time</h2>
+            <Link
+              to="/tracks"
+              className="bg-transparent whitespace-nowrap text-white border border-white rounded-full px-8 py-2 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
+            >
+              See More
+            </Link>
+          </div>
+          <div className="space-y-4">
+            {topTracks?.items?.map((track: SpotifyTrack) => (
+              <a
+                key={track.id}
+                href={track.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between group hover:bg-gray-900 p-2 rounded-lg transition-colors"
+              >
+                <div className="flex items-center flex-1">
+                  <img
+                    src={track.album.images[2]?.url}
+                    alt={track.name}
+                    className="w-12 h-12 object-cover"
+                  />
+                  <div className="ml-4 min-w-0">
+                    <div className="text-white group-hover:text-green-500 transition-colors truncate">
+                      {track.name}
+                    </div>
+                    <div className="text-gray-400 text-sm truncate">
+                      {track.artists.map((a) => a.name).join(", ")} ·{" "}
+                      {track.album.name}
+                    </div>
+                  </div>
+                </div>
+                <span className="text-gray-400 text-sm ml-4">
+                  {formatDuration(track.duration_ms)}
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

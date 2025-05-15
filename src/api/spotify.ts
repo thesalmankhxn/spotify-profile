@@ -129,3 +129,51 @@ export const getUserPlaylists = async () => {
 
   return response.json();
 };
+
+// Get user's top artists
+export const getTopArtists = async () => {
+  const accessToken = localStorage.getItem("spotify_access_token");
+
+  if (!accessToken) {
+    throw new Error("No access token available");
+  }
+
+  const response = await fetch(
+    "https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=7",
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch top artists");
+  }
+
+  return response.json();
+};
+
+// Get user's top tracks
+export const getTopTracks = async () => {
+  const accessToken = localStorage.getItem("spotify_access_token");
+
+  if (!accessToken) {
+    throw new Error("No access token available");
+  }
+
+  const response = await fetch(
+    "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=7",
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch top tracks");
+  }
+
+  return response.json();
+};
