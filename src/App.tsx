@@ -5,7 +5,7 @@ import Callback from "./components/Callback";
 import { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
+import Layout from "./components/Layout";
 // Create a client with better defaults for Spotify API
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +23,7 @@ const queryClient = new QueryClient({
 });
 
 const AppContainer = ({ children }: { children: React.ReactNode }) => (
-  <div className="h-full min-h-screen">{children}</div>
+  <Layout>{children}</Layout>
 );
 
 // Helper function to clear tokens and redirect

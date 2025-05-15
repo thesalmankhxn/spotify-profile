@@ -1,13 +1,13 @@
-import React from 'react';
-
-const IconSpotify = () => (
+const IconSpotify = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     x="0px"
     y="0px"
     viewBox="0 0 427.652 427.652"
-    xmlSpace="preserve">
+    xmlSpace="preserve"
+    className={className}
+  >
     <path
       d="M213.826,0C95.733,0,0,95.733,0,213.826s95.733,213.826,213.826,213.826
 	s213.826-95.733,213.826-213.826S331.919,0,213.826,0z M306.886,310.32c-2.719,4.652-7.612,7.246-12.638,7.247

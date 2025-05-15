@@ -1,6 +1,4 @@
-import React from 'react';
-
-const IconTime = () => (
+const IconTime = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -8,7 +6,9 @@ const IconTime = () => (
     y="0px"
     width="30px"
     height="29px"
-    viewBox="0 0 510 510">
+    viewBox="0 0 510 510"
+    className={className}
+  >
     <title>Time</title>
     <g>
       <g id="history">

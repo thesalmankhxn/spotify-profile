@@ -82,7 +82,7 @@ const Nav: React.FC = () => {
       {/* Github */}
       <div className="mb-8 w-11 h-11 text-light-grey hover:text-blue md:hidden">
         <a
-          href="https://github.com/bchiang7/spotify-profile"
+          href="https://github.com/thesalmankhxn/spotify-profile"
           target="_blank"
           rel="noopener noreferrer"
           className="block"
