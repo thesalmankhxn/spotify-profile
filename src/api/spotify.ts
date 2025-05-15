@@ -1,7 +1,7 @@
 // Spotify API constants
-const CLIENT_ID = "6c97a4c0578d4b309084733e6912d02f";
-const CLIENT_SECRET = "f6ba014afb1b42a79038c5949c06699b";
-const REDIRECT_URI = "http://localhost:5173/callback";
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
+const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
 
 // Scopes for Spotify API access
 export const SCOPES = [
