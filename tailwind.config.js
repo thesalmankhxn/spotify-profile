@@ -3,6 +3,23 @@ const config = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      screens: {
+        xxsm: { max: "480px" },
+        xsm: { max: "540px" },
+        sm: { max: "640px" },
+        md: { max: "780px" },
+        lg: { max: "1080px" },
+        xl: { max: "1200px" },
+        "2xl": { max: "1480px" },
+
+        "min-xxsm": { min: "480px" },
+        "min-xsm": { min: "540px" },
+        "min-sm": { min: "640px" },
+        "min-md": { min: "780px" },
+        "min-lg": { min: "1080px" },
+        "min-xl": { min: "1200px" },
+        "min-2xl": { min: "1480px" },
+      },
       colors: {
         green: "#1DB954",
         "off-green": "#1ed760",
