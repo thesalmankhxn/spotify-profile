@@ -68,16 +68,12 @@ const Callback = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <p className="text-xl">
-        {getTokenMutation.isPending ? "Logging you in..." : "Redirecting..."}
-
-        <OverlayLoader
-          show={getTokenMutation.isPending}
-          label={
-            getTokenMutation.isPending ? "Logging you in..." : "Redirecting..."
-          }
-        />
-      </p>
+      <OverlayLoader
+        show={getTokenMutation.isPending}
+        label={
+          getTokenMutation.isPending ? "Logging you in..." : "Redirecting..."
+        }
+      />
     </div>
   );
 };
