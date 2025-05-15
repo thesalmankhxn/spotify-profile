@@ -17,6 +17,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.76.1
         version: 5.76.1(@tanstack/react-query@5.76.1(react@19.1.0))(react@19.1.0)
+      '@types/classnames':
+        specifier: ^2.3.4
+        version: 2.3.4
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
@@ -29,6 +32,9 @@ importers:
       chart.js:
         specifier: ^4.4.1
         version: 4.4.9
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
       prop-types:
         specifier: ^15.7.2
         version: 15.8.1
@@ -1411,6 +1417,10 @@ packages:
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
 
+  '@types/classnames@2.3.4':
+    resolution: {integrity: sha512-dwmfrMMQb9ujX1uYGvB5ERDlOzBNywnZAZBtOe107/hORWP05ESgU4QyaanZMWYYfd2BzrG78y13/Bju8IQcMQ==}
+    deprecated: This is a stub types definition. classnames provides its own type definitions, so you do not need this installed.
+
   '@types/eslint-scope@8.3.0':
     resolution: {integrity: sha512-FaY/QEfIyGJzJdkObuvtaROKv7A0zArw+be0tgXfWd1s1/AqPzEbyf7eyK0Pg0YezUpKrSwK4kgBn/kjzQOjtQ==}
 
@@ -2348,6 +2358,9 @@ packages:
   class-utils@0.3.6:
     resolution: {integrity: sha512-qOhPa/Fj7s6TY8H8esGu5QNpMMQxz79h+urzrNYN6mn+9BnxlDGf5QZ+XeCDsxSjPqsSR56XOZOJmpeurnLMeg==}
     engines: {node: '>=0.10.0'}
+
+  classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
 
   clean-css@4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
@@ -9341,6 +9354,10 @@ snapshots:
     dependencies:
       '@babel/types': 7.27.0
 
+  '@types/classnames@2.3.4':
+    dependencies:
+      classnames: 2.5.1
+
   '@types/eslint-scope@8.3.0':
     dependencies:
       '@types/eslint': 9.6.1
@@ -10534,6 +10551,8 @@ snapshots:
       define-property: 0.2.5
       isobject: 3.0.1
       static-extend: 0.1.2
+
+  classnames@2.5.1: {}
 
   clean-css@4.2.4:
     dependencies:

@@ -2,22 +2,22 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Profile from "./components/Profile";
 import LoginScreen from "./components/LoginScreen";
 import Callback from "./components/Callback";
-import { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "./components/Layout";
-// Create a client with better defaults for Spotify API
+import { AuthProvider, useAuth } from "./context/AuthContext";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      retry: false, // Disable automatic retries
-      refetchOnWindowFocus: false, // Don't refetch when window gets focus
-      refetchOnMount: false, // Don't refetch when component mounts
-      refetchOnReconnect: false, // Don't refetch on network reconnection
+      staleTime: 5 * 60 * 1000,
+      retry: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
     },
     mutations: {
-      retry: false, // Disable automatic retries for mutations
+      retry: false,
     },
   },
 });
@@ -34,40 +34,8 @@ export const clearAuthAndRedirect = () => {
   window.location.href = "/";
 };
 
-const AuthProvider = () => {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-
-  // Check for token on mount
-  useEffect(() => {
-    const token = localStorage.getItem("spotify_access_token");
-    if (token) {
-      // Check if token is expired
-      const expirationTime = localStorage.getItem("spotify_token_expiration");
-      if (expirationTime) {
-        const currentTime = new Date().getTime();
-        if (parseInt(expirationTime) < currentTime) {
-          // Token is expired, clear it
-          clearAuthAndRedirect();
-          return;
-        }
-      }
-      setAccessToken(token);
-    }
-
-    // Listen for storage events (for multi-tab support)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "spotify_access_token") {
-        if (e.newValue) {
-          setAccessToken(e.newValue);
-        } else {
-          setAccessToken(null);
-        }
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+const AppRoutes = () => {
+  const { accessToken } = useAuth();
 
   return (
     <Routes>
@@ -82,13 +50,15 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AppContainer>
-          <AuthProvider />
-        </AppContainer>
+        <AuthProvider>
+          <AppContainer>
+            <AppRoutes />
+          </AppContainer>
+        </AuthProvider>
       </BrowserRouter>
-      {/* {process.env.NODE_ENV === "development" && (
+      {process.env.NODE_ENV === "development" && (
         <ReactQueryDevtools initialIsOpen={false} />
-      )} */}
+      )}
     </QueryClientProvider>
   );
 };

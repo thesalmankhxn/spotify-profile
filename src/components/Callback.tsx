@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAccessToken } from "../api/spotify";
 import { clearAuthAndRedirect } from "../App";
+import { useAuth } from "../context/AuthContext";
 
 interface AuthTokens {
   access_token: string;
@@ -14,6 +15,7 @@ const Callback = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isProcessing, setIsProcessing] = useState(false);
+  const { setAccessToken } = useAuth();
 
   // Mutation for getting the access token, with no auto-retry
   const getTokenMutation = useMutation({
@@ -31,6 +33,9 @@ const Callback = () => {
         "spotify_token_expiration",
         expirationTime.toString()
       );
+
+      // Update context with new access token
+      setAccessToken(data.access_token);
 
       // Invalidate any existing queries to ensure fresh data
       queryClient.invalidateQueries();

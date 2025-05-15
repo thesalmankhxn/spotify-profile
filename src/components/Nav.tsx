@@ -81,7 +81,7 @@ const Nav: React.FC = () => {
       </ul>
 
       {/* Github */}
-      <div className="w-16 h-16 text-green hover:text-off-green transition-colors grid place-items-center mx-auto sm:hidden">
+      <div className="w-16 h-16 hover:text-off-green transition-colors grid place-items-center mx-auto mb-4 sm:hidden">
         <a
           href="https://github.com/thesalmankhxn/spotify-profile"
           target="_blank"
