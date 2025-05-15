@@ -70,9 +70,7 @@ const Callback = () => {
     <div className="flex items-center justify-center min-h-screen">
       <OverlayLoader
         show={getTokenMutation.isPending}
-        label={
-          getTokenMutation.isPending ? "Logging you in..." : "Redirecting..."
-        }
+        label="Logging you in..."
       />
     </div>
   );

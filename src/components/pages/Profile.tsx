@@ -178,7 +178,7 @@ const Profile = () => {
     isTopTracksLoading ||
     isAuthLoading
   ) {
-    return <OverlayLoader show={true} />;
+    return <OverlayLoader show={true} label="Loading..." />;
   }
 
   if (profileError) {

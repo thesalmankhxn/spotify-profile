@@ -29,7 +29,7 @@ const Recent = () => {
   });
 
   if (isLoading) {
-    return <OverlayLoader show={true} />;
+    return <OverlayLoader show={true} label="Loading..." />;
   }
 
   const formatDuration = (ms: number) => {

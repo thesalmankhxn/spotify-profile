@@ -25,7 +25,7 @@ const Playlists = () => {
   });
 
   if (isLoading) {
-    return <OverlayLoader show={true} />;
+    return <OverlayLoader show={true} label="Loading..." />;
   }
 
   return (
