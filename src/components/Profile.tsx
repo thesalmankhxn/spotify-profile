@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useCallback, useEffect } from "react";
 import { getUserProfile, refreshAccessToken } from "../api/spotify";
-import { useNavigate } from "react-router-dom";
 import { clearAuthAndRedirect } from "../App";
 
 interface SpotifyProfile {
@@ -19,7 +18,6 @@ interface SpotifyProfile {
 }
 
 const Profile = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   // Track if a refresh has already been attempted in this session
   const refreshAttempted = React.useRef(false);
