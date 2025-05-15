@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-full min-h-screen">
       <Nav />
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow min-sm:pl-[90px]">{children}</main>
     </div>
   );
 };
